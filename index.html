@@ -871,6 +871,34 @@
     .footer-logo span { color: var(--accent); }
     .footer-copy { font-size: 13px; }
 
+    /* ─── STICKY MOBILE CTA ─────────────────────────── */
+    .sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 16px 36px;
+      border-radius: 50px;
+      box-shadow: 0 8px 28px rgba(200,122,141,.45);
+      transition: opacity .3s, transform .3s;
+      white-space: nowrap;
+    }
+    .sticky-cta.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-50%) translateY(12px);
+    }
+    @media (max-width: 968px) {
+      .sticky-cta { display: block; }
+    }
+
     /* ─── MOBILE NAV ──────────────────────────────────────── */
     .mobile-menu {
       display: none;
@@ -952,6 +980,9 @@
 </head>
 <body>
 
+  <!-- Sticky Mobile CTA -->
+  <a href="#contact" class="sticky-cta" id="stickyCta">Замовити букет →</a>
+
   <!-- ─── NAV ─── -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
@@ -988,17 +1019,17 @@
       <div class="hero-content">
         <div class="hero-eyebrow reveal">Студія флористики та доставки</div>
         <h1 class="hero-title reveal reveal-delay-1" id="main-heading">
-          Авторські букети,<br>що <em>дарують емоції</em><br>з першого погляду
+          Свіжий букет<br>з доставкою за <em>90 хвилин</em><br> 
         </h1>
         <p class="hero-subtitle reveal reveal-delay-2">
-          Створюємо сучасні флористичні композиції зі свіжих сезонних квітів та доставляємо їх день у день по місту.
+          Авторські флористичні композиції зі свіжих сезонних квітів. Збираємо, фотографуємо та доставляємо того ж дня — по всьому місту.
         </p>
         <div class="hero-actions reveal reveal-delay-3">
-          <a href="#bouquets" class="btn btn-primary">
-            Обрати букет
+          <a href="#contact" class="btn btn-primary">
+            Замовити букет зараз
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <a href="#how" class="btn btn-outline">Як це працює</a>
+          <a href="#bouquets" class="btn btn-outline">Переглянути букети</a>
         </div>
         <div class="hero-stats reveal">
           <div>
@@ -1316,8 +1347,12 @@
 
         <div class="cta-form reveal reveal-delay-1">
           <div class="form-body" id="formBody">
+            <div style="display:flex;align-items:center;gap:10px;background:rgba(216,143,160,.08);border:1px solid rgba(216,143,160,.2);border-radius:10px;padding:12px 16px;margin-bottom:24px;">
+              <span style="font-size:20px;">🌸</span>
+              <span style="font-size:13px;color:var(--muted);">Вже <strong style="color:var(--text);">500+ замовлень</strong> — менеджер відповідає за 10 хвилин</span>
+            </div>
             <div class="form-title">Залишити заявку</div>
-            <div class="form-subtitle">Заповніть форму — це займе менше хвилини</div>
+            <div class="form-subtitle">Лише 2 поля — і ми зв'яжемось самі</div>
             <div class="form-group">
               <label class="form-label" for="name">Ваше ім'я</label>
               <input class="form-input" type="text" id="name" placeholder="Наприклад, Олена" required />
@@ -1326,28 +1361,30 @@
               <label class="form-label" for="phone">Номер телефону</label>
               <input class="form-input" type="tel" id="phone" placeholder="+380 (__) ___ __ __" required />
             </div>
-            <div class="form-group">
-              <label class="form-label" for="occasion">Привід</label>
-              <select class="form-select" id="occasion">
-                <option value="">Оберіть привід</option>
-                <option>День народження</option>
-                <option>Річниця / побачення</option>
-                <option>Подарунок без приводу</option>
-                <option>Корпоративне замовлення</option>
-                <option>Інше</option>
-              </select>
+            <div id="extraFields" style="display:none;">
+              <div class="form-group">
+                <label class="form-label" for="occasion">Привід (необов'язково)</label>
+                <select class="form-select" id="occasion">
+                  <option value="">Оберіть привід</option>
+                  <option>День народження</option>
+                  <option>Річниця / побачення</option>
+                  <option>Подарунок без приводу</option>
+                  <option>Корпоративне замовлення</option>
+                  <option>Інше</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="time">Бажаний час доставки (необов'язково)</label>
+                <input class="form-input" type="text" id="time" placeholder="Наприклад, сьогодні о 15:00" />
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="time">Бажаний час доставки</label>
-              <input class="form-input" type="text" id="time" placeholder="Наприклад, сьогодні о 15:00" />
-            </div>
+            <button type="button" id="toggleExtra" onclick="var ef=document.getElementById('extraFields');ef.style.display=ef.style.display==='none'?'block':'none';this.textContent=ef.style.display==='block'?'▴ Приховати деталі':'▾ Додати деталі замовлення';" style="background:none;border:none;color:var(--accent-dk);font-size:13px;cursor:pointer;margin-bottom:12px;padding:0;font-family:var(--font-body);">▾ Додати деталі замовлення</button>
             <button class="form-submit" id="formSubmit" type="button">
               Залишити заявку
               <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
             <div class="form-note">Натискаючи кнопку, ви погоджуєтесь з умовами обробки даних</div>
           </div>
-
           <div class="form-success" id="formSuccess">
             <div class="success-icon">🌸</div>
             <div class="success-title">Дякуємо за заявку!</div>
@@ -1363,11 +1400,21 @@
     <div class="footer-inner">
       <div class="footer-logo">K<span>V</span>ITY</div>
       <div class="footer-copy">© 2025 KVITY · Студія флористики та доставки</div>
-      <div class="footer-copy">Зроблено для Лабораторної роботи №5</div>
+      <div class="footer-copy">Зроблено для Лабораторної роботи №7</div>
     </div>
   </footer>
 
   <script>
+    // ─── Sticky mobile CTA ──────────────────────
+    const stickyCta = document.getElementById('stickyCta');
+    const contactSection = document.getElementById('contact');
+    if (stickyCta && contactSection) {
+      window.addEventListener('scroll', () => {
+        const rect = contactSection.getBoundingClientRect();
+        stickyCta.classList.toggle('hidden', rect.top < window.innerHeight);
+      });
+    }
+
     // ─── Nav scroll ─────────────────────────────
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
